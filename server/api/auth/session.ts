@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
         access_token: tokenResp.data.access_token,
         expiry,
       },
-      kv_data: kvSession,
+      redis_data: kvSession,
     } satisfies UserSession;
   } catch (error) {
     throw error;

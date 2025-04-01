@@ -14,7 +14,6 @@
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@pinia/nuxt": "^0.4.11",
-    "@vercel/kv": "^0.2.3",
     "axios": "^1.5.0",
     "chart.js": "^4.4.0",
     "dayjs": "^1.11.9",
@@ -24,6 +23,7 @@
     "minisearch": "^6.1.0",
     "mysql2": "^3.9.7",
     "pinia": "^2.1.6",
+    "redis": "^4.7.0",
     "sharp": "^0.32.6",
     "spotify-web-api-js": "^1.5.2",
     "uuid": "^9.0.1",

@@ -1,16 +1,16 @@
 import type { HTTPMethod } from "h3";
 
 import type {
-  UserModel,
-  InsertUserModel,
   FriendRequestModel,
   InsertFriendRequestModel,
-  UserFriendModel,
-  InsertUserFriendModel,
-  PlaylistModel,
   InsertPlaylistModel,
-  RecommendModel,
   InsertRecommendModel,
+  InsertUserFriendModel,
+  InsertUserModel,
+  PlaylistModel,
+  RecommendModel,
+  UserFriendModel,
+  UserModel,
 } from "~/server/database/schema";
 
 declare global {
@@ -36,7 +36,7 @@ declare global {
     expires_in: number;
   }
 
-  interface KVUserSession {
+  interface RedisUserSession {
     user_id: string;
     refresh_token: string;
     created_at: number;
@@ -50,7 +50,7 @@ declare global {
 
   interface UserSession {
     token: AuthToken;
-    kv_data: KVUserSession;
+    redis_data: RedisUserSession;
   }
 
   type PathLike = string | RegExp;
@@ -95,14 +95,14 @@ declare global {
 }
 
 export {
-  UserModel,
-  InsertUserModel,
   FriendRequestModel,
   InsertFriendRequestModel,
-  UserFriendModel,
-  InsertUserFriendModel,
-  PlaylistModel,
   InsertPlaylistModel,
-  RecommendModel,
   InsertRecommendModel,
+  InsertUserFriendModel,
+  InsertUserModel,
+  PlaylistModel,
+  RecommendModel,
+  UserFriendModel,
+  UserModel,
 };

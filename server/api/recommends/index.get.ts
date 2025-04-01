@@ -5,7 +5,7 @@ import { getFullRecommendsData } from "~/utils/services";
 
 export default defineEventHandler(async (event) => {
   const token: string = event.context.token;
-  const { user_id }: KVUserSession = event.context.session;
+  const { user_id }: RedisUserSession = event.context.session;
   const query = event.path.split("?").at(-1);
 
   if (!query) {

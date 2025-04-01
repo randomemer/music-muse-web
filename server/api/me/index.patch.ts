@@ -4,7 +4,7 @@ import { InsertUserModel, users } from "~/server/database/schema";
 
 export default defineEventHandler(async (event) => {
   const env = useRuntimeConfig();
-  const session: KVUserSession = event.context.session;
+  const session: RedisUserSession = event.context.session;
   const db = await useDrizzle(env);
 
   try {

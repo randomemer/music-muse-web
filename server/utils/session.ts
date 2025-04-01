@@ -1,16 +1,16 @@
-import { kv } from "@vercel/kv";
 import axios from "axios";
 import { setCookie, type H3Event } from "h3";
 import type { RuntimeConfig } from "nuxt/schema";
 import type {} from "spotify-web-api-js";
 import { users } from "~/server/database/schema";
 import { useDrizzle } from "./drizzle";
+import useRedis from "./redis";
 
 export async function createSession(
   event: H3Event,
   config: RuntimeConfig,
   tokenData: AccessTokenResponse
-): Promise<KVUserSession> {
+): Promise<RedisUserSession> {
   console.time("create-session");
   // 1. Get user data from spotify
   const userResp = await axios.get<SpotifyApi.CurrentUsersProfileResponse>(
@@ -21,16 +21,17 @@ export async function createSession(
   );
   const profile = userResp.data;
 
-  // 2. Create a session in kv redis
+  // 2. Create a session in Redis
   const ts = Date.now();
-  const session: KVUserSession = {
+  const session: RedisUserSession = {
     user_id: profile.id,
     refresh_token: tokenData.refresh_token,
     created_at: ts,
     updated_at: ts,
   };
-  const kvRes = await kv.set(profile.id, session);
-  console.log("kvRes", kvRes);
+  const redis = await useRedis(config);
+  const kvRes = await redis.hSet(profile.id, session);
+  console.log("Redis Res", kvRes);
 
   // 3. Set account info (if not present)
   const db = await useDrizzle(config);
@@ -65,9 +66,11 @@ export async function fetchSession(
   }
 
   // 1. fetch session
-  console.time("kv");
-  const session = await kv.get<KVUserSession>(sessionId);
-  console.timeEnd("kv");
+  console.time("redis");
+  const redis = await useRedis(config);
+  const session = await redis.hGetAll<RedisUserSession>(sessionId);
+  console.log("nigga", session);
+  console.timeEnd("redis");
 
   if (!session) {
     throw createError({
@@ -102,6 +105,6 @@ export async function fetchSession(
       access_token: tokenResp.data.access_token,
       expiry: Date.now() + tokenResp.data.expires_in * 1000,
     },
-    kv_data: session,
+    redis_data: session,
   };
 }

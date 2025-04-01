@@ -45,6 +45,7 @@ export default defineNuxtConfig({
     serviceAccKey: process.env.SERVICE_ACC_KEY,
     storageBucket: process.env.STORAGE_BUCKET,
     dbUrl: process.env.DB_URL,
+    redisUrl: process.env.REDIS_URL,
     public: {
       origin: process.env.ORIGIN,
     },

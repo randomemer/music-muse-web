@@ -2,7 +2,7 @@ import { and, eq, or } from "drizzle-orm";
 import { userFriends } from "~/server/database/schema";
 
 export default defineEventHandler(async (event) => {
-  const { user_id }: KVUserSession = event.context.session;
+  const { user_id }: RedisUserSession = event.context.session;
   const config = useRuntimeConfig();
   const db = await useDrizzle(config);
 

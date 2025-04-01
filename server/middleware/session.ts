@@ -1,5 +1,5 @@
-import { kv } from "@vercel/kv";
 import { isProtectedRoute } from "~/server/utils";
+import useRedis from "../utils/redis";
 
 const PROTECTED_ROUTES: ProtectedRoute[] = [
   "/api/recommends",
@@ -22,7 +22,9 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const session = await kv.get<KVUserSession>(sessionId);
+  const env = useRuntimeConfig(event);
+  const redis = await useRedis(env);
+  const session = await redis.hGetAll<RedisUserSession>(sessionId);
   if (!session) {
     throw createError({
       statusCode: 401,

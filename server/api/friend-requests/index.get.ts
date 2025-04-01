@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
   try {
     const query = getQuery(event);
     const direction = query.direction?.toString() || "incoming";
-    const { user_id }: KVUserSession = event.context.session;
+    const { user_id }: RedisUserSession = event.context.session;
 
     if (!["incoming", "outgoing"].includes(direction)) {
       throw createError({

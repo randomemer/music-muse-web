@@ -6,7 +6,7 @@ import {
 } from "~/server/database/schema";
 
 export default defineEventHandler(async (event) => {
-  const session: KVUserSession = event.context.session;
+  const session: RedisUserSession = event.context.session;
   const senderId = session.user_id;
   const body: FriendReqInput = await readBody(event);
   const recipientId = body.recipient;

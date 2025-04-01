@@ -4,7 +4,7 @@ import { friendRequests } from "~/server/database/schema";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
-  const { user_id }: KVUserSession = event.context.session;
+  const { user_id }: RedisUserSession = event.context.session;
   const db = await useDrizzle(config);
 
   const requestId = event.context.params?.id;

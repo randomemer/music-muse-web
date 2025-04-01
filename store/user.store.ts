@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
 import type { AxiosInstance } from "axios";
 import _ from "lodash";
+import { defineStore } from "pinia";
 import type { UserModel } from "~/types/server";
 
 const useUserStore = defineStore("auth", {
@@ -25,7 +25,7 @@ const useUserStore = defineStore("auth", {
     async fetchProfile(api: AxiosInstance) {
       if (!this.session) throw new Error("No session in store");
       const resp = await api.get<APIGetUser>(
-        `user/${this.session.kv_data.user_id}`
+        `user/${this.session.redis_data.user_id}`
       );
       this.profile = resp.data;
       return resp.data;
